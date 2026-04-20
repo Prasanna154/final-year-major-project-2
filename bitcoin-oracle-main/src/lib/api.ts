@@ -14,6 +14,11 @@ const getApiBaseUrl = () => {
     return envUrl.endsWith('/') ? envUrl.slice(0, -1) : envUrl;
   }
   
+  // In production (Vercel), we'll use same-origin relative paths (/api/...)
+  if (import.meta.env.PROD) {
+    return '';
+  }
+  
   // Default for local development
   return 'http://localhost:5000';
 };

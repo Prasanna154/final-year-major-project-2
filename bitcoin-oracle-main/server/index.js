@@ -105,5 +105,11 @@ app.get('/api/predictions/:userId', (req, res) => {
   res.json(latest.data);
 });
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`API Server running on http://localhost:${PORT}`));
+const PORT = process.env.PORT || 5000;
+
+// Only listen if not running as a Vercel serverless function
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => console.log(`API Server running on http://localhost:${PORT}`));
+}
+
+export default app;
