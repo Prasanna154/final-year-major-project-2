@@ -11,6 +11,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Health Check
+app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date().toISOString() }));
+
 const USERS_FILE = path.join(__dirname, 'users.json');
 const PREDICTIONS_FILE = path.join(__dirname, 'predictions.json');
 
@@ -26,7 +29,7 @@ const readData = (file) => {
 
 // Helper to write JSON
 const writeData = (file, data) => {
-  fs.writeFileSync(file, JSON.stringify(data, null, 2));
+  try { fs.writeFileSync(file, JSON.stringify(data, null, 2)); } catch (e) { console.error('Write failed:', e); }
 };
 
 // Auth: Signup
@@ -113,3 +116,4 @@ if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
 }
 
 export default app;
+
