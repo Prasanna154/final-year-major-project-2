@@ -1,13 +1,26 @@
 {
-    "version":  2,
-    "rewrites":  [
-                     {
-                         "destination":  "/api/index.js",
-                         "source":  "/api/(.*)"
-                     },
-                     {
-                         "destination":  "/index.html",
-                         "source":  "/(.*)"
-                     }
-                 ]
+    "builds":  [
+                   {
+                       "config":  {
+                                      "distDir":  "dist"
+                                  },
+                       "use":  "@vercel/static-build",
+                       "src":  "package.json"
+                   },
+                   {
+                       "src":  "api/index.js",
+                       "use":  "@vercel/node"
+                   }
+               ],
+    "routes":  [
+                   {
+                       "src":  "/api/(.*)",
+                       "dest":  "api/index.js"
+                   },
+                   {
+                       "src":  "/(.*)",
+                       "dest":  "/index.html"
+                   }
+               ],
+    "version":  2
 }
